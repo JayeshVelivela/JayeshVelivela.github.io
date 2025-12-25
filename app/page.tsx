@@ -420,7 +420,7 @@ export default function Home() {
               <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
                 <h3 className="text-xl font-semibold mb-3">Resume</h3>
                 <Link
-                  href="/resume.pdf"
+                  href="/Jayesh_Velivela_Resume.pdf"
                   download
                   className="inline-block px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-lg hover:shadow-xl"
                 >
