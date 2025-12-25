@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Jayesh Velivela - Software Engineer',
     description: 'Software engineer building scalable backend systems and production-ready software. Student at the University of Michigan.',
-    url: 'https://jayeshvelivela.com',
+    url: 'https://jayeshvelivela.github.io',
     siteName: 'Jayesh Velivela Portfolio',
     type: 'website',
   },
