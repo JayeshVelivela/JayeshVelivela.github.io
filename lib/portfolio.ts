@@ -1,3 +1,27 @@
+type Project = {
+  title: string
+  date: string
+  stack: string[]
+  summary: string
+  impact: string
+  details: string[]
+  link?: string
+}
+
+type Experience = {
+  role: string
+  company: string
+  location: string
+  dates: string
+  current?: boolean
+  bullets: string[]
+}
+
+type SkillGroup = {
+  name: string
+  skills: string[]
+}
+
 export const profile = {
   name: 'Jayesh Velivela',
   title: 'Computer Science student and systems-minded software engineer',
@@ -56,7 +80,7 @@ export const nowCards = [
   },
 ]
 
-export const projects = [
+export const projects: Project[] = [
   {
     title: 'Agent Execution Platform',
     date: 'August 2025',
@@ -100,7 +124,7 @@ export const projects = [
   },
 ]
 
-export const experiences = [
+export const experiences: Experience[] = [
   {
     role: 'Technology Summer Analyst',
     company: 'Accenture',
@@ -136,7 +160,7 @@ export const experiences = [
   },
 ]
 
-export const skillGroups = [
+export const skillGroups: SkillGroup[] = [
   {
     name: 'Languages',
     skills: ['Golang', 'Python', 'C++', 'Java', 'C', 'JavaScript', 'SQL', 'Bash', 'Swift', 'TypeScript'],
