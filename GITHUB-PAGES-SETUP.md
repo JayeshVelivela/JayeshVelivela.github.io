@@ -9,7 +9,7 @@
 If your repository is currently named differently (e.g., `personal-website`), you need to rename it:
 
 1. Go to your repository on GitHub
-2. Click **Settings** → **General**
+2. Click **Settings** -> **General**
 3. Scroll to **Repository name**
 4. Rename to: `JayeshVelivela.github.io`
 5. Click **Rename**
@@ -17,7 +17,7 @@ If your repository is currently named differently (e.g., `personal-website`), yo
 ## What Was Configured
 
 ### 1. Next.js Static Export (`next.config.js`)
-- Changed `output: 'standalone'` → `output: 'export'` (enables static export)
+- Changed `output: 'standalone'` to `output: 'export'` (enables static export)
 - Set `images.unoptimized: true` (required for static export)
 - Set `basePath: ''` (deploy to root domain)
 - Set `assetPrefix: ''` (assets load from root)
@@ -46,7 +46,7 @@ If your repository is currently named differently (e.g., `personal-website`), yo
    - Repository must be named: `JayeshVelivela.github.io`
 
 2. **Enable GitHub Pages**
-   - Go to repository **Settings** → **Pages**
+   - Go to repository **Settings** -> **Pages**
    - Under **Source**, select: **GitHub Actions**
    - Save
 
@@ -81,7 +81,6 @@ After deployment, verify:
 - [ ] Images load correctly (especially `/jayesh.jpg`)
 - [ ] Navigation links work (smooth scroll to sections)
 - [ ] All pages accessible
-- [ ] Dark mode works
 - [ ] Responsive design works on mobile
 
 ## Troubleshooting
@@ -89,7 +88,7 @@ After deployment, verify:
 ### Site Not Loading
 - Check GitHub Actions for errors
 - Verify repository name is exactly `JayeshVelivela.github.io`
-- Ensure GitHub Pages is enabled in Settings → Pages
+- Ensure GitHub Pages is enabled in Settings -> Pages
 - Wait 2-3 minutes after deployment
 
 ### Images Not Loading
@@ -124,4 +123,3 @@ out/                    # Generated static files (gitignored)
 - GitHub Actions builds and deploys automatically
 - No manual deployment steps needed
 - Site updates within 2-3 minutes of pushing to main
-

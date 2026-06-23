@@ -1,82 +1,166 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import type { MouseEvent } from 'react'
 import { useEffect, useState } from 'react'
+import { profile } from '@/lib/portfolio'
+
+const navItems = [
+  { label: 'Now', id: 'now' },
+  { label: 'About', id: 'about' },
+  { label: 'Projects', id: 'projects' },
+  { label: 'Experience', id: 'experience' },
+  { label: 'Skills', id: 'skills' },
+  { label: 'Contact', id: 'contact' },
+]
 
 export default function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+  const [isScrolled, setIsScrolled] = useState(!isHome)
+  const [activeSection, setActiveSection] = useState('home')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      setIsScrolled(!isHome || window.scrollY > 24)
     }
+
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isHome])
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
-      e.preventDefault()
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
+  useEffect(() => {
+    if (!isHome) {
+      setActiveSection('')
+      return
     }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+        if (visible?.target.id) {
+          setActiveSection(visible.target.id)
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: [0.2, 0.4, 0.6] },
+    )
+
+    const sectionIds = ['home', ...navItems.map((item) => item.id)]
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+
+    return () => observer.disconnect()
+  }, [isHome])
+
+  const handleSectionClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (!isHome) {
+      setIsMenuOpen(false)
+      return
+    }
+
+    const element = document.getElementById(id)
+    if (!element) return
+
+    event.preventDefault()
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', `#${id}`)
+    setActiveSection(id)
+    setIsMenuOpen(false)
   }
 
+  const shellClass = isScrolled
+    ? 'border-[#dce6dd] bg-white/92 text-[#161616] shadow-sm backdrop-blur-xl'
+    : 'border-transparent bg-transparent text-white'
+
+  const linkBase = isScrolled
+    ? 'text-[#3f4945] hover:text-[#0b7a5c]'
+    : 'text-white/78 hover:text-white'
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-gray-800' 
-        : 'bg-transparent'
-    }`}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center h-16 sm:h-16 py-4 sm:py-0">
-          <Link 
-            href="/#home" 
-            onClick={(e) => handleClick(e, '#home')}
-            className="text-xl font-semibold mb-4 sm:mb-0 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+    <nav className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${shellClass}`}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-4">
+          <Link
+            href="/#home"
+            onClick={(event) => handleSectionClick(event, 'home')}
+            className="text-base font-black transition hover:text-[#0b7a5c]"
           >
             Jayesh Velivela
           </Link>
-          <div className="flex flex-wrap gap-4 sm:gap-6">
-            <a
-              href="#about"
-              onClick={(e) => handleClick(e, '#about')}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+
+          <div className="hidden items-center gap-1 md:flex">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id
+              return (
+                <Link
+                  key={item.id}
+                  href={`/#${item.id}`}
+                  onClick={(event) => handleSectionClick(event, item.id)}
+                  className={`rounded-full px-3 py-2 text-sm font-bold transition ${linkBase} ${
+                    isActive && isScrolled ? 'bg-[#e6f8ee] text-[#0b7a5c]' : ''
+                  } ${isActive && !isScrolled ? 'bg-white/14 text-white' : ''}`}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
+            <Link
+              href={profile.resume}
+              className={`ml-2 rounded-full px-4 py-2 text-sm font-black transition ${
+                isScrolled
+                  ? 'bg-[#101513] text-white hover:bg-[#0b7a5c]'
+                  : 'border border-white/24 bg-white/12 text-white hover:bg-white/22'
+              }`}
             >
-              About
-            </a>
-            <a
-              href="#projects"
-              onClick={(e) => handleClick(e, '#projects')}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >
-              Projects
-            </a>
-            <a
-              href="#experience"
-              onClick={(e) => handleClick(e, '#experience')}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >
-              Experience
-            </a>
-            <a
-              href="#skills"
-              onClick={(e) => handleClick(e, '#skills')}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >
-              Skills
-            </a>
-            <a
-              href="#contact"
-              onClick={(e) => handleClick(e, '#contact')}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-            >
-              Contact
-            </a>
+              Resume
+            </Link>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className={`rounded-full px-4 py-2 text-sm font-black transition md:hidden ${
+              isScrolled ? 'bg-[#101513] text-white' : 'border border-white/24 bg-white/12 text-white'
+            }`}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            Menu
+          </button>
         </div>
+
+        {isMenuOpen ? (
+          <div className={`grid gap-1 border-t py-3 md:hidden ${isScrolled ? 'border-[#dce6dd]' : 'border-white/15'}`}>
+            {navItems.map((item) => (
+              <Link
+                key={item.id}
+                href={`/#${item.id}`}
+                onClick={(event) => handleSectionClick(event, item.id)}
+                className={`rounded-md px-3 py-3 text-sm font-bold transition ${linkBase}`}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href={profile.resume}
+              onClick={() => setIsMenuOpen(false)}
+              className={`rounded-md px-3 py-3 text-sm font-black transition ${
+                isScrolled ? 'bg-[#101513] text-white' : 'border border-white/18 text-white'
+              }`}
+            >
+              Resume
+            </Link>
+          </div>
+        ) : null}
       </div>
     </nav>
   )

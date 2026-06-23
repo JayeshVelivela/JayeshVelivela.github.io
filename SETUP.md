@@ -1,26 +1,27 @@
 # Quick Setup Guide
 
-## Required Assets
+This portfolio already includes the required public assets:
 
-Before running the site, you need to add two files to the `public/` directory:
+- `public/jayesh.jpg`
+- `public/Jayesh_Velivela_Resume.pdf`
 
-### 1. Headshot Image (`jayesh.jpg`)
+Run the site locally:
 
-- **Location**: `public/jayesh.jpg`
-- **Format**: JPG, PNG, or WebP
-- **Recommended size**: 400x400px or larger (square aspect ratio works best)
-- **Usage**: Displayed on the home page as a circular profile image
+```bash
+npm install
+npm run dev
+```
 
-### 2. Resume PDF (`resume.pdf`)
+Open:
 
-- **Location**: `public/resume.pdf`
-- **Format**: PDF
-- **Usage**: Downloadable from the Resume page
+```text
+http://localhost:3000
+```
 
-## Steps
+Build the static GitHub Pages export:
 
-1. Add your headshot image to `public/jayesh.jpg`
-2. Add your resume PDF to `public/resume.pdf`
-3. Run `npm install` to install dependencies
-4. Run `npm run dev` to start the development server
+```bash
+npm run build
+```
 
+The exported site is generated in `out/`.

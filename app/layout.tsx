@@ -3,22 +3,23 @@ import './globals.css'
 import Navigation from '@/components/Navigation'
 
 export const metadata: Metadata = {
-  title: 'Jayesh Velivela - Software Engineer | Portfolio',
-  description: 'Jayesh Velivela is a software engineer and student at the University of Michigan. Building scalable backend systems and production-ready software. View projects, experience, and skills.',
-  keywords: ['Jayesh Velivela', 'Software Engineer', 'University of Michigan', 'Backend Developer', 'Full Stack Developer', 'React Native', 'Python', 'Java', 'Portfolio'],
+  metadataBase: new URL('https://jayeshvelivela.github.io'),
+  title: 'Jayesh Velivela - Computer Science Student & Software Engineer',
+  description: 'Jayesh Velivela is a University of Michigan computer science student building backend platforms, distributed systems, APIs, and production-minded software.',
+  keywords: ['Jayesh Velivela', 'Software Engineer', 'University of Michigan', 'Backend Developer', 'Distributed Systems', 'FastAPI', 'React Native', 'TypeScript', 'Java', 'Portfolio'],
   authors: [{ name: 'Jayesh Velivela' }],
   creator: 'Jayesh Velivela',
   openGraph: {
-    title: 'Jayesh Velivela - Software Engineer',
-    description: 'Software engineer building scalable backend systems and production-ready software. Student at the University of Michigan.',
+    title: 'Jayesh Velivela - Software Engineer Portfolio',
+    description: 'Computer science student at the University of Michigan building backend platforms, distributed systems, and product-focused software.',
     url: 'https://jayeshvelivela.github.io',
     siteName: 'Jayesh Velivela Portfolio',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jayesh Velivela - Software Engineer',
-    description: 'Software engineer building scalable backend systems and production-ready software.',
+    title: 'Jayesh Velivela - Software Engineer Portfolio',
+    description: 'Backend platforms, distributed systems, APIs, and production-minded software.',
   },
   robots: {
     index: true,
@@ -44,4 +45,3 @@ export default function RootLayout({
     </html>
   )
 }
-

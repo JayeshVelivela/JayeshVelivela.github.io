@@ -1,48 +1,34 @@
 import Link from 'next/link'
+import { profile } from '@/lib/portfolio'
 
 export default function Contact() {
   return (
-    <div className="min-h-screen">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <h1 className="text-4xl font-bold mb-12">Contact</h1>
-        
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-xl font-semibold mb-2">GitHub</h2>
-            <Link
-              href="https://github.com/JayeshVelivela"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              github.com/JayeshVelivela
-            </Link>
-          </div>
-          
-          <div>
-            <h2 className="text-xl font-semibold mb-2">LinkedIn</h2>
-            <Link
-              href="https://www.linkedin.com/in/jayeshvelivela/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              linkedin.com/in/jayeshvelivela
-            </Link>
-          </div>
-          
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Email</h2>
-            <a
-              href="mailto:jvelivel@umich.edu"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              jvelivel@umich.edu
-            </a>
-          </div>
+    <div className="min-h-screen bg-[#101513] pt-24 text-white">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+        <p className="text-sm font-bold uppercase text-[#48f2b5]">Contact</p>
+        <h1 className="mt-3 text-4xl font-bold sm:text-5xl">Reach out to Jayesh.</h1>
+        <div className="mt-10 grid gap-4">
+          <a href={`mailto:${profile.email}`} className="rounded-md bg-white px-5 py-4 font-bold text-[#101513] transition hover:-translate-y-0.5">
+            {profile.email}
+          </a>
+          <Link
+            href={profile.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md border border-white/16 px-5 py-4 font-bold transition hover:-translate-y-0.5 hover:border-[#48f2b5] hover:text-[#48f2b5]"
+          >
+            {profile.linkedinLabel}
+          </Link>
+          <Link
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md border border-white/16 px-5 py-4 font-bold transition hover:-translate-y-0.5 hover:border-[#48f2b5] hover:text-[#48f2b5]"
+          >
+            {profile.githubLabel}
+          </Link>
         </div>
       </div>
     </div>
   )
 }
-

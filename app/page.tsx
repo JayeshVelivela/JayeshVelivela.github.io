@@ -1,432 +1,339 @@
+'use client'
+
+import Image from 'next/image'
 import Link from 'next/link'
-import ProfileImage from '@/components/ProfileImage'
+import { useMemo, useState } from 'react'
+import { experiences, nowCards, profile, projects, proofPoints, skillGroups } from '@/lib/portfolio'
 
 export default function Home() {
+  const [activeProject, setActiveProject] = useState(0)
+  const [skillFilter, setSkillFilter] = useState('All')
+
+  const selectedProject = projects[activeProject]
+  const skillFilters = useMemo(() => ['All', ...skillGroups.map((group) => group.name)], [])
+  const visibleSkillGroups =
+    skillFilter === 'All' ? skillGroups : skillGroups.filter((group) => group.name === skillFilter)
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-shrink-0">
-              <ProfileImage />
-            </div>
-            <div className="flex-1 text-center md:text-left">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent">
-                Hi, my name is Jayesh Velivela. I build software systems that are designed to scale.
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-                Student at the University of Michigan
+    <div className="min-h-screen bg-[#f6f7f4] text-[#161616]">
+      <section id="home" className="relative min-h-screen overflow-hidden bg-[#111111]">
+        <Image
+          src="/jayesh.jpg"
+          alt="Jayesh Velivela"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/58 to-black/20" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/55 to-transparent" />
+
+        <div className="relative z-10 flex min-h-screen items-end">
+          <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-28 sm:px-6 lg:px-8">
+            <div className="max-w-3xl text-white">
+              <p className="mb-4 inline-flex rounded-full border border-white/25 bg-white/12 px-4 py-2 text-sm font-medium text-white shadow-sm backdrop-blur">
+                Michigan CS - Accenture Technology Summer Analyst - Backend and distributed systems
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <h1 className="text-5xl font-bold leading-none sm:text-6xl lg:text-7xl">
+                {profile.name}
+              </h1>
+              <p className="mt-6 max-w-2xl text-xl leading-8 text-white/88">
+                {profile.headline}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="#projects"
-                  className="px-8 py-4 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-all shadow-lg hover:shadow-xl"
+                  className="rounded-md bg-[#48f2b5] px-6 py-3 text-center text-sm font-bold text-[#07120f] shadow-lg shadow-black/25 transition hover:-translate-y-0.5 hover:bg-[#77ffd0] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
                 >
-                  View Projects
+                  Explore the work
                 </a>
                 <Link
-                  href="https://github.com/JayeshVelivela"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-8 py-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
+                  href={profile.resume}
+                  className="rounded-md border border-white/30 bg-white/12 px-6 py-3 text-center text-sm font-bold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/22 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
                 >
-                  GitHub
+                  Download resume
                 </Link>
-                <Link
-                  href="https://www.linkedin.com/in/jayeshvelivela/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-8 py-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="rounded-md border border-white/30 px-6 py-3 text-center text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-white/12 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
                 >
-                  LinkedIn
-                </Link>
+                  Contact Jayesh
+                </a>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* About Section */}
-      <section id="about" className="py-24 bg-white dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-            About Me
-          </h2>
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-lg">
-              I'm Jayesh Velivela, a software engineer focused on building production ready systems that are designed to scale. I care deeply about how software behaves in the real world, not just how it looks in a demo.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-lg">
-              My work centers around backend engineering, APIs, databases, and distributed system concepts. I enjoy designing clean architectures, modeling data thoughtfully, and building services that are reliable, testable, and easy to extend.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed text-lg">
-              I've built and shipped backend systems using modern frameworks and tools, with hands-on experience in authentication, asynchronous processing, relational databases, and containerized deployments. I approach engineering with a production mindset, emphasizing correctness, maintainability, and clear tradeoffs.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-              I'm currently a college student continuing to deepen my foundation in computer science while building real world projects that mirror how professional engineering teams work. I'm excited by problems that require ownership, thoughtful design, and systems level thinking.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="py-24 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
-            Projects
-          </h2>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Multi Tenant Document Processing Platform */}
-            <div className="group bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600">
-              <h3 className="text-2xl font-semibold mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                Multi Tenant Document Processing Platform
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                A backend system built with multi-tenant architecture, featuring
-                authentication and authorization, PostgreSQL database, asynchronous
-                processing with Redis, and FastAPI framework. Designed with
-                production-focused architecture and containerized with Docker.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
-                  FastAPI
-                </span>
-                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
-                  PostgreSQL
-                </span>
-                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
-                  Redis
-                </span>
-                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
-                  Docker
-                </span>
-              </div>
-              <Link
-                href="https://github.com/JayeshVelivela/multi-tenant-document-processing-platform"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-2"
-              >
-                View on GitHub →
-              </Link>
-            </div>
-
-            {/* Lift Link */}
-            <div className="group bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600">
-              <h3 className="text-2xl font-semibold mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                Lift Link
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                A full stack mobile fitness application built with React Native, Redux Toolkit, and TypeScript. 
-                Features real-time workout logging, analytics, and a social feed. Integrated Supabase for 
-                authentication, real-time data synchronization, relational tables, and role-based access control.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium">
-                  React Native
-                </span>
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium">
-                  TypeScript
-                </span>
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium">
-                  Supabase
-                </span>
-                <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs font-medium">
-                  PostgreSQL
-                </span>
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-500 italic mb-6">
-                Key features: Real-time synchronization, offline functionality, UUID-based schema design
-              </p>
-              <Link
-                href="https://github.com/JayeshVelivela/LiftLink"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-2"
-              >
-                View on GitHub →
-              </Link>
-            </div>
-
-            {/* Credit Wise */}
-            <div className="group bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-2xl transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600">
-              <h3 className="text-2xl font-semibold mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                Credit Wise
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                An interactive web application that simulates and predicts FICO credit scores based on 
-                user-adjustable financial behaviors. Features a supervised machine learning model using Random 
-                Forest Regressor with R2 accuracy scores above 0.92, integrated with scikit-learn pipelines 
-                and Streamlit reactive UI components.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
-                  Python
-                </span>
-                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
-                  scikit-learn
-                </span>
-                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
-                  Streamlit
-                </span>
-                <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
-                  Matplotlib
-                </span>
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-500 italic mb-6">
-                Features: Real-time prediction visualizations, feature importance analysis, portable deployment
-              </p>
-              <Link
-                href="https://github.com/JayeshVelivela/CreditWise"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline font-medium inline-flex items-center gap-2"
-              >
-                View on GitHub →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Experience Section */}
-      <section id="experience" className="py-24 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
-            Experience
-          </h2>
-          
-          <div className="space-y-12">
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
-                <div>
-                  <h3 className="text-2xl font-semibold mb-2">
-                    Software Engineer Intern
-                  </h3>
-                  <p className="text-lg text-gray-600 dark:text-gray-400 font-medium">
-                    Ghadys LLC
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500">
-                    Northville, Michigan
-                  </p>
+            <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {proofPoints.map((item) => (
+                <div key={item.value} className="rounded-md border border-white/14 bg-white/10 p-4 text-white backdrop-blur">
+                  <p className="text-3xl font-black text-[#48f2b5]">{item.value}</p>
+                  <p className="mt-2 text-sm leading-5 text-white/78">{item.label}</p>
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 md:mt-0 font-medium">
-                  May 2025 - August 2025
-                </p>
-              </div>
-              <ul className="list-disc list-inside space-y-3 text-gray-700 dark:text-gray-300">
-                <li>
-                  Built and optimized over 20 RESTful APIs using Java with Spring
-                  Boot and C with .NET Core, improving backend response time by 35
-                  percent across high volume fintech and healthcare systems.
-                </li>
-                <li>
-                  Assisted with reusable backend component design to support
-                  scalability.
-                </li>
-                <li>
-                  Developed responsive and accessible UI components using React.js,
-                  TypeScript, and Material UI, delivering production ready client
-                  features with over 95 percent satisfaction while ensuring cross
-                  browser compatibility and WCAG accessibility compliance.
-                </li>
-                <li>
-                  Wrote over 150 automated unit and integration tests using JUnit,
-                  xUnit, and React Testing Library, increasing test coverage from
-                  57 percent to 91 percent and reducing QA regression cycles by 60
-                  percent.
-                </li>
-                <li>
-                  Automated CI and CD pipelines using GitHub Actions and Azure
-                  DevOps, reducing deployment time by 85 percent and enabling
-                  consistent daily production releases across multiple cloud
-                  environments.
-                </li>
-              </ul>
-            </div>
-
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
-                <div>
-                  <h3 className="text-2xl font-semibold mb-2">
-                    Outreach Director Intern
-                  </h3>
-                  <p className="text-lg text-gray-600 dark:text-gray-400 font-medium">
-                    M1 Digital
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500">
-                    Detroit, Michigan
-                  </p>
-                </div>
-                <p className="text-sm text-gray-500 dark:text-gray-500 mt-2 md:mt-0 font-medium">
-                  March 2024 - December 2024
-                </p>
-              </div>
-              <ul className="list-disc list-inside space-y-3 text-gray-700 dark:text-gray-300">
-                <li>
-                  Led data driven outreach strategies by analyzing KPIs from more
-                  than 10 digital events and producing dashboards and reports that
-                  informed future campaign design.
-                </li>
-                <li>
-                  Collaborated with internal product and marketing teams to define
-                  and execute OKRs for digital equity initiatives, directly
-                  impacting over 100 participants.
-                </li>
-                <li>
-                  Designed scalable event registration and feedback workflows using
-                  Airtable and Zapier automations, reducing manual coordination
-                  time by 50 percent while enabling real time attendance tracking
-                  and sentiment analysis.
-                </li>
-                <li>
-                  Developed automated analytics pipelines using Google Sheets,
-                  Google App Script, and Python to track engagement trends,
-                  resulting in a 20 percent increase in partner conversion and
-                  outreach ROI.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="py-24 bg-white dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
-            Skills
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold mb-4">Languages</h3>
-              <div className="flex flex-wrap gap-2">
-                {['Python', 'Java', 'C', 'JavaScript', 'HTML', 'CSS', 'SQL', 'Bash', 'C++'].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg text-sm font-medium shadow-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold mb-4">Backend</h3>
-              <div className="flex flex-wrap gap-2">
-                {['RESTful APIs', 'Spring Boot', '.NET Core', 'FastAPI', 'Node.js'].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg text-sm font-medium shadow-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold mb-4">Databases</h3>
-              <div className="flex flex-wrap gap-2">
-                {['PostgreSQL', 'Redis'].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg text-sm font-medium shadow-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-              <h3 className="text-xl font-semibold mb-4">Infrastructure</h3>
-              <div className="flex flex-wrap gap-2">
-                {['Docker', 'Linux', 'Google Cloud Platform', 'Amazon Web Services', 'Microsoft Azure', 'CI/CD pipelines'].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg text-sm font-medium shadow-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-            <h3 className="text-xl font-semibold mb-4">Tools & Frameworks</h3>
-            <div className="flex flex-wrap gap-2">
-              {['Visual Studio Code', 'GitHub Actions', 'Azure DevOps', 'React.js', 'TypeScript', 'React Native', 'Redux Toolkit', 'Material UI', 'JUnit', 'xUnit', 'React Testing Library', 'Matplotlib', 'scikit-learn', 'Streamlit', 'Supabase', 'Airtable', 'Zapier', 'Google Sheets', 'Google App Script', 'Power BI', 'Tableau', 'Agile and Scrum methodologies', 'Unit testing', 'WCAG accessibility standards', 'Data visualization', 'iOS development'].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-4 py-2 bg-white dark:bg-gray-700 rounded-lg text-sm font-medium shadow-sm"
-                >
-                  {skill}
-                </span>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
-            Contact
-          </h2>
-          
-          <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold mb-3">GitHub</h3>
-                <Link
-                  href="https://github.com/JayeshVelivela"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline text-lg"
-                >
-                  github.com/JayeshVelivela
-                </Link>
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-semibold mb-3">LinkedIn</h3>
-                <Link
-                  href="https://www.linkedin.com/in/jayeshvelivela/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline text-lg"
-                >
-                  linkedin.com/in/jayeshvelivela
-                </Link>
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-semibold mb-3">Email</h3>
-                <a
-                  href="mailto:jvelivel@umich.edu"
-                  className="text-blue-600 dark:text-blue-400 hover:underline text-lg"
-                >
-                  jvelivel@umich.edu
-                </a>
+      <section id="now" className="border-y border-[#dfe7df] bg-white py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase text-[#0b7a5c]">Current snapshot</p>
+              <h2 className="mt-2 text-3xl font-bold sm:text-4xl">What I am doing now</h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-[#4b5550]">
+              This section is based on the June 2026 resume you provided, with the current focus framed around
+              your Summer 2026 Accenture role and Michigan CS path.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {nowCards.map((card) => (
+              <article key={card.title} className="rounded-md border border-[#dce6dd] bg-[#f6f7f4] p-6 transition hover:-translate-y-1 hover:border-[#77d8b6] hover:shadow-xl">
+                <p className="text-sm font-bold uppercase text-[#0b7a5c]">{card.label}</p>
+                <h3 className="mt-3 text-2xl font-bold">{card.title}</h3>
+                <p className="mt-4 leading-7 text-[#4b5550]">{card.detail}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="bg-[#f6f7f4] py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+          <div>
+            <p className="text-sm font-bold uppercase text-[#0b7a5c]">About</p>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">A builder who cares about the system behind the screen.</h2>
+          </div>
+          <div className="space-y-6 text-lg leading-8 text-[#3f4945]">
+            <p>{profile.summary}</p>
+            <p>
+              I am drawn to problems where correctness, performance, and user experience all matter at once.
+              That is why my projects tend to look like production systems: authentication, tenant boundaries,
+              queues and caching, CI/CD, tests, observability-minded design, and clear interfaces.
+            </p>
+            <p>
+              My recent work includes secure agent coordination, multi-tenant document processing, and a
+              real-time mobile fitness app. Across those projects, the through-line is ownership: understand the
+              domain, design the architecture, ship the pieces, and make the tradeoffs visible.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="bg-[#101513] py-20 text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase text-[#48f2b5]">Project spotlight</p>
+              <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Interactive systems, not just class projects.</h2>
+            </div>
+            <p className="max-w-xl leading-7 text-white/70">
+              Pick a project to see the architecture story, proof points, and tech stack. Each one is pulled from
+              your resume and tuned for portfolio scanning.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.4fr]">
+            <div className="space-y-3" role="tablist" aria-label="Featured projects">
+              {projects.map((project, index) => {
+                const isActive = activeProject === index
+                return (
+                  <button
+                    key={project.title}
+                    type="button"
+                    onClick={() => setActiveProject(index)}
+                    className={`w-full rounded-md border p-5 text-left transition ${
+                      isActive
+                        ? 'border-[#48f2b5] bg-[#48f2b5] text-[#07120f] shadow-xl shadow-[#48f2b5]/10'
+                        : 'border-white/12 bg-white/6 text-white hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10'
+                    }`}
+                    role="tab"
+                    aria-selected={isActive}
+                  >
+                    <span className={`text-xs font-bold uppercase ${isActive ? 'text-[#075640]' : 'text-[#48f2b5]'}`}>
+                      {project.date}
+                    </span>
+                    <span className="mt-2 block text-xl font-bold">{project.title}</span>
+                    <span className={`mt-3 block text-sm leading-6 ${isActive ? 'text-[#12382e]' : 'text-white/62'}`}>
+                      {project.summary}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <article className="rounded-md border border-white/12 bg-white/[0.07] p-6 shadow-2xl shadow-black/20">
+              <div className="flex flex-col justify-between gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-start">
+                <div>
+                  <p className="text-sm font-bold uppercase text-[#48f2b5]">Selected build</p>
+                  <h3 className="mt-2 text-3xl font-bold">{selectedProject.title}</h3>
+                </div>
+                {selectedProject.link ? (
+                  <Link
+                    href={selectedProject.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-md border border-white/18 px-4 py-2 text-sm font-bold text-white transition hover:border-[#48f2b5] hover:text-[#48f2b5]"
+                  >
+                    View repo
+                  </Link>
+                ) : (
+                  <Link
+                    href={profile.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-md border border-white/18 px-4 py-2 text-sm font-bold text-white transition hover:border-[#48f2b5] hover:text-[#48f2b5]"
+                  >
+                    GitHub profile
+                  </Link>
+                )}
               </div>
 
-              <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-                <h3 className="text-xl font-semibold mb-3">Resume</h3>
-                <Link
-                  href="/Jayesh_Velivela_Resume.pdf"
-                  download
-                  className="inline-block px-6 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-lg hover:shadow-xl"
-                >
-                  Download Resume (PDF)
-                </Link>
+              <p className="mt-6 text-lg leading-8 text-white/82">{selectedProject.impact}</p>
+              <ul className="mt-6 space-y-4">
+                {selectedProject.details.map((detail) => (
+                  <li key={detail} className="flex gap-3 text-white/76">
+                    <span className="mt-2 h-2 w-2 flex-none rounded-full bg-[#48f2b5]" />
+                    <span className="leading-7">{detail}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 flex flex-wrap gap-2">
+                {selectedProject.stack.map((tech) => (
+                  <span key={tech} className="rounded-full border border-white/12 bg-black/18 px-3 py-1 text-sm text-white/82">
+                    {tech}
+                  </span>
+                ))}
               </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" className="bg-white py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 max-w-3xl">
+            <p className="text-sm font-bold uppercase text-[#0b7a5c]">Experience</p>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">A timeline of software, systems, and data work.</h2>
+          </div>
+
+          <div className="space-y-5">
+            {experiences.map((experience) => (
+              <article key={`${experience.company}-${experience.role}`} className="rounded-md border border-[#dce6dd] bg-[#f6f7f4] p-6">
+                <div className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h3 className="text-2xl font-bold">{experience.role}</h3>
+                      {experience.current ? (
+                        <span className="rounded-full bg-[#dff8ec] px-3 py-1 text-xs font-bold uppercase text-[#0b7a5c]">
+                          Current focus
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className="mt-1 text-lg font-semibold text-[#3f4945]">{experience.company}</p>
+                    <p className="text-sm text-[#6b746f]">{experience.location}</p>
+                  </div>
+                  <p className="rounded-full border border-[#d4ded5] px-4 py-2 text-sm font-bold text-[#3f4945]">
+                    {experience.dates}
+                  </p>
+                </div>
+                <ul className="mt-6 grid gap-4 md:grid-cols-3">
+                  {experience.bullets.map((bullet) => (
+                    <li key={bullet} className="rounded-md bg-white p-4 text-sm leading-6 text-[#4b5550] shadow-sm">
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" className="bg-[#eef5f0] py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase text-[#0b7a5c]">Skills</p>
+              <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Filter the toolkit.</h2>
+            </div>
+            <div className="flex flex-wrap gap-2" aria-label="Skill filters">
+              {skillFilters.map((filter) => {
+                const isActive = skillFilter === filter
+                return (
+                  <button
+                    key={filter}
+                    type="button"
+                    onClick={() => setSkillFilter(filter)}
+                    className={`rounded-full px-4 py-2 text-sm font-bold transition ${
+                      isActive
+                        ? 'bg-[#101513] text-white'
+                        : 'border border-[#cbd8cf] bg-white text-[#3f4945] hover:border-[#0b7a5c] hover:text-[#0b7a5c]'
+                    }`}
+                  >
+                    {filter}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            {visibleSkillGroups.map((group) => (
+              <article key={group.name} className="rounded-md border border-[#d4ded5] bg-white p-6 shadow-sm">
+                <h3 className="text-xl font-bold">{group.name}</h3>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span key={skill} className="rounded-full bg-[#f1f7f3] px-3 py-2 text-sm font-semibold text-[#3f4945]">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="bg-[#101513] py-20 text-white">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
+          <div>
+            <p className="text-sm font-bold uppercase text-[#48f2b5]">Contact</p>
+            <h2 className="mt-2 text-4xl font-bold">Let us build something useful.</h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-white/72">
+              I am always glad to talk about backend systems, product engineering, internships, and ambitious
+              technical projects.
+            </p>
+          </div>
+          <div className="rounded-md border border-white/12 bg-white/[0.07] p-6">
+            <div className="space-y-4">
+              <a href={`mailto:${profile.email}`} className="block rounded-md bg-white px-5 py-4 font-bold text-[#101513] transition hover:-translate-y-0.5">
+                {profile.email}
+              </a>
+              <Link
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-md border border-white/16 px-5 py-4 font-bold text-white transition hover:-translate-y-0.5 hover:border-[#48f2b5] hover:text-[#48f2b5]"
+              >
+                {profile.linkedinLabel}
+              </Link>
+              <Link
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-md border border-white/16 px-5 py-4 font-bold text-white transition hover:-translate-y-0.5 hover:border-[#48f2b5] hover:text-[#48f2b5]"
+              >
+                {profile.githubLabel}
+              </Link>
+              <Link
+                href={profile.resume}
+                className="block rounded-md border border-[#48f2b5] px-5 py-4 font-bold text-[#48f2b5] transition hover:-translate-y-0.5 hover:bg-[#48f2b5] hover:text-[#07120f]"
+              >
+                Download the June 2026 resume
+              </Link>
             </div>
           </div>
         </div>

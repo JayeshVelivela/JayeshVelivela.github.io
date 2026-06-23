@@ -1,18 +1,28 @@
 #!/bin/bash
 
-# Script to push to GitHub
-# Replace YOUR_USERNAME with your GitHub username
-# Replace REPO_NAME with your repository name (e.g., personal-website)
+set -e
 
-echo "Make sure you've created the repository on GitHub first!"
-echo "Go to: https://github.com/new"
+echo "This pushes the portfolio to GitHub Pages."
+echo "Expected repository: https://github.com/JayeshVelivela/JayeshVelivela.github.io"
 echo ""
-read -p "Enter your GitHub username: " GITHUB_USERNAME
-read -p "Enter your repository name: " REPO_NAME
 
-git remote add origin https://github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
+if [ ! -d ".git" ]; then
+  echo "This folder is not a Git repository because it likely came from a ZIP download."
+  echo "Recommended:"
+  echo "1. Clone https://github.com/JayeshVelivela/JayeshVelivela.github.io"
+  echo "2. Copy these updated files into the clone"
+  echo "3. Run this script from inside the cloned repository"
+  exit 1
+fi
+
+if ! git remote get-url origin >/dev/null 2>&1; then
+  git remote add origin https://github.com/JayeshVelivela/JayeshVelivela.github.io.git
+fi
+
+git status
+git add .
+git commit -m "Refresh portfolio site"
 git push -u origin main
 
-echo "Done! Your code is now on GitHub."
-echo "Next step: Deploy to Railway (see DEPLOY.md)"
-
+echo ""
+echo "Done. Check the GitHub Actions tab for the Pages deployment."

@@ -1,146 +1,78 @@
-# Personal Website - Jayesh Velivela
+# Jayesh Velivela Portfolio
 
-A minimal, technical portfolio website for a software engineer built with Next.js, TypeScript, and Tailwind CSS.
+An interactive personal portfolio for Jayesh Velivela, built with Next.js, TypeScript, and Tailwind CSS, and deployed with GitHub Pages.
+
+Live site:
+
+```text
+https://jayeshvelivela.github.io
+```
 
 ## Tech Stack
 
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS framework
-- **Railway** - Deployment platform
+- Next.js 14 with App Router
+- TypeScript
+- Tailwind CSS
+- Static export for GitHub Pages
+- GitHub Actions deployment
 
-## Getting Started
+## Local Development
 
-### Prerequisites
-
-- Node.js 18+ and npm
-
-### Local Development
-
-1. Install dependencies:
 ```bash
 npm install
-```
-
-2. Add required assets:
-   - Place a headshot image named `jayesh.jpg` in the `public/` directory
-   - Place a resume PDF named `resume.pdf` in the `public/` directory
-
-3. Run the development server:
-```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open:
 
-### Building for Production
+```text
+http://localhost:3000
+```
+
+## Production Build
 
 ```bash
 npm run build
-npm start
 ```
 
-## Deployment to Railway
+The static export is generated in `out/`.
 
-### Option 1: Connect GitHub Repository
+## Content Updates
 
-1. Push this repository to GitHub
-2. Go to [Railway](https://railway.app)
-3. Click "New Project"
-4. Select "Deploy from GitHub repo"
-5. Select your repository
-6. Railway will automatically detect Next.js and deploy
+Most portfolio content lives in:
 
-### Option 2: Deploy via Railway CLI
+```text
+lib/portfolio.ts
+```
 
-1. Install Railway CLI:
+Update that file to change the hero copy, current snapshot, projects, experience, skills, links, and resume-driven content across the site.
+
+Public assets:
+
+```text
+public/jayesh.jpg
+public/Jayesh_Velivela_Resume.pdf
+```
+
+## Deploying
+
+This repo includes `.github/workflows/deploy.yml`, which deploys automatically when changes are pushed to `main`.
+
 ```bash
-npm i -g @railway/cli
+git status
+git add .
+git commit -m "Refresh portfolio site"
+git push origin main
 ```
 
-2. Login to Railway:
-```bash
-railway login
-```
-
-3. Initialize and deploy:
-```bash
-railway init
-railway up
-```
-
-### Environment Variables
-
-No environment variables are required for this project.
-
-### Build Configuration
-
-Railway will automatically:
-- Detect Next.js
-- Run `npm install`
-- Run `npm run build`
-- Start the app with `npm start`
+Then check the GitHub `Actions` tab. When the `Deploy to GitHub Pages` workflow succeeds, the site will update at `https://jayeshvelivela.github.io`.
 
 ## Project Structure
 
+```text
+app/                     Next.js App Router pages
+components/              Shared React components
+lib/portfolio.ts         Resume-backed portfolio content
+public/                  Static image and resume assets
+.github/workflows/       GitHub Pages deployment workflow
 ```
-.
-├── app/                    # Next.js App Router pages
-│   ├── about/             # About page
-│   ├── contact/           # Contact page
-│   ├── experience/        # Experience page
-│   ├── projects/          # Projects page
-│   ├── resume/            # Resume page
-│   ├── skills/            # Skills page
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   └── globals.css        # Global styles
-├── components/            # React components
-│   └── Navigation.tsx     # Navigation component
-├── public/                # Static assets
-│   ├── jayesh.jpg        # Headshot image (add this)
-│   └── resume.pdf        # Resume PDF (add this)
-├── next.config.js         # Next.js configuration
-├── tailwind.config.js     # Tailwind CSS configuration
-├── tsconfig.json          # TypeScript configuration
-└── package.json           # Dependencies
-```
-
-## Adding Assets
-
-### Headshot Image
-
-1. Place your headshot image in the `public/` directory
-2. Name it `jayesh.jpg`
-3. Recommended size: 400x400px or larger (square aspect ratio)
-4. The image will be automatically optimized by Next.js
-
-### Resume PDF
-
-1. Place your resume PDF in the `public/` directory
-2. Name it `resume.pdf`
-3. The resume page will provide a download link
-
-## Customization
-
-### Updating Contact Information
-
-Edit `app/contact/page.tsx` to update email address and other contact information.
-
-### Styling
-
-The site uses Tailwind CSS. Modify `tailwind.config.js` to customize the design system, or edit individual page components to adjust styling.
-
-### Content
-
-All content is in the respective page files:
-- `app/page.tsx` - Home page
-- `app/about/page.tsx` - About page
-- `app/projects/page.tsx` - Projects page
-- `app/experience/page.tsx` - Experience page
-- `app/skills/page.tsx` - Skills page
-
-## License
-
-Private project - All rights reserved.
-
