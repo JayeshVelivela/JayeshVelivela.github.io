@@ -58,17 +58,49 @@ const skillStories: Record<string, string> = {
     'Enough frontend, mobile, analytics, and workflow automation range to connect technical systems to people actually using them.',
 }
 
+const personalPhotos = [
+  {
+    src: '/about/game-day.jpg',
+    alt: 'Jayesh with friends at a Michigan game day',
+    label: 'Game day',
+    caption: 'I love the energy of Michigan game days and being around friends.',
+  },
+  {
+    src: '/about/friends-night.jpg',
+    alt: 'Jayesh with friends outside at night',
+    label: 'Friends',
+    caption: 'A lot of my best memories come from hanging out, meeting new people, and saying yes to plans.',
+  },
+  {
+    src: '/about/family-birthday.jpg',
+    alt: 'Jayesh with family at a birthday celebration',
+    label: 'Home',
+    caption: 'Family keeps me grounded and reminds me who I am building toward.',
+  },
+  {
+    src: '/about/formal-night.jpg',
+    alt: 'Jayesh dressed up for a night out',
+    label: 'Nights out',
+    caption: 'I love spending time with the ones I love.',
+  },
+]
+
+const personalInterests = ['Basketball', 'Swimming', 'Video games', 'Daily Wordle', 'Meeting people']
+
 export default function Home() {
   const [activeLens, setActiveLens] = useState(0)
   const [activeScan, setActiveScan] = useState(0)
   const [activeProject, setActiveProject] = useState(0)
   const [activeSkillGroup, setActiveSkillGroup] = useState('All')
   const [openExperience, setOpenExperience] = useState(0)
+  const [activePhoto, setActivePhoto] = useState(0)
+  const [showPersonal, setShowPersonal] = useState(false)
   const [spotlight, setSpotlight] = useState({ x: 50, y: 50 })
 
   const selectedProject = projects[activeProject]
   const selectedLens = lenses[activeLens]
   const selectedScan = signalScans[activeScan]
+  const selectedPhoto = personalPhotos[activePhoto]
   const skillFilters = useMemo(() => ['All', ...skillGroups.map((group) => group.name)], [])
   const visibleSkillGroups =
     activeSkillGroup === 'All' ? skillGroups : skillGroups.filter((group) => group.name === activeSkillGroup)
@@ -240,12 +272,96 @@ export default function Home() {
       </section>
 
       <section id="about" className="bg-[#0b1020] py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.78fr_1.22fr] lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.76fr_1.24fr] lg:px-8">
           <div className="reveal">
             <p className="text-sm font-black uppercase tracking-[0.18em] text-[#f4b860]">About</p>
-            <h2 className="mt-2 text-3xl font-black sm:text-4xl">Systems taste, product instincts, delivery habits.</h2>
+            <h2 className="mt-2 text-3xl font-black sm:text-4xl">The person behind the systems.</h2>
+            <p className="mt-5 max-w-md text-lg leading-8 text-white/68">
+              I care about building serious things, but I am at my best around people, competition, and small daily rituals.
+            </p>
           </div>
-          <div className="reveal rounded-md border border-[#26324f] bg-[#121a2f] p-6 shadow-2xl shadow-black/20">
+
+          <div className="reveal grid gap-5">
+            <button
+              type="button"
+              onClick={() => setShowPersonal((isOpen) => !isOpen)}
+              className="group rounded-md border border-[#26324f] bg-[#121a2f] p-6 text-left shadow-2xl shadow-black/20 transition hover:-translate-y-1 hover:border-[#f4b860]/70"
+            >
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <p className="text-sm font-black uppercase tracking-[0.18em] text-[#f4b860]">Learn more about me</p>
+                  <h3 className="mt-2 text-2xl font-black">Basketball, friends, swimming, games, and the daily Wordle.</h3>
+                </div>
+                <span className="rounded-full border border-white/14 bg-black/22 px-4 py-2 text-sm font-black text-[#7dd3fc] transition group-hover:border-[#f4b860]/70">
+                  {showPersonal ? 'Hide' : 'Open'}
+                </span>
+              </div>
+              <p
+                className={`overflow-hidden leading-7 text-white/72 transition-all duration-300 ${
+                  showPersonal ? 'mt-5 max-h-64 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+              >
+                Outside of school and work, I love playing basketball, swimming, playing video games, doing the daily
+                Wordle, hanging out with friends, and meeting new people. I like being around people who make ordinary
+                days feel memorable, whether that is a late-night hangout, a game day, or a quick competitive run.
+              </p>
+              <div
+                className={`flex flex-wrap gap-2 overflow-hidden transition-all duration-300 ${
+                  showPersonal ? 'mt-5 max-h-24 opacity-100' : 'mt-0 max-h-0 opacity-0'
+                }`}
+              >
+                {personalInterests.map((interest) => (
+                  <span key={interest} className="rounded-full border border-[#2a3553] bg-black/22 px-3 py-1 text-sm font-bold text-white/76">
+                    {interest}
+                  </span>
+                ))}
+              </div>
+            </button>
+
+            <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="relative min-h-[320px] overflow-hidden rounded-md border border-[#26324f] bg-[#121a2f] shadow-2xl shadow-black/20">
+                <Image
+                  src={selectedPhoto.src}
+                  alt={selectedPhoto.alt}
+                  fill
+                  sizes="(min-width: 1024px) 46vw, 100vw"
+                  className="object-cover transition duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/76 via-black/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <p className="text-sm font-black uppercase tracking-[0.18em] text-[#f4b860]">{selectedPhoto.label}</p>
+                  <p className="mt-2 max-w-xl text-lg font-black text-white">{selectedPhoto.caption}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {personalPhotos.map((photo, index) => (
+                  <button
+                    key={photo.src}
+                    type="button"
+                    onClick={() => setActivePhoto(index)}
+                    className={`group relative min-h-36 overflow-hidden rounded-md border text-left transition hover:-translate-y-1 ${
+                      activePhoto === index ? 'border-[#f4b860]' : 'border-[#26324f] hover:border-[#f4b860]/70'
+                    }`}
+                  >
+                    <Image
+                      src={photo.src}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 18vw, 50vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/72 to-black/8" />
+                    <span className="absolute bottom-3 left-3 rounded-full bg-black/55 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-white">
+                      {photo.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-md border border-[#26324f] bg-[#121a2f] p-6 shadow-2xl shadow-black/20">
+              <p className="mb-4 text-sm font-black uppercase tracking-[0.18em] text-[#f4b860]">Work lens</p>
             <div className="grid gap-4 md:grid-cols-3">
               {lenses.map((lens, index) => (
                 <button
@@ -268,6 +384,7 @@ export default function Home() {
               <h3 className="mt-2 text-2xl font-black">{selectedLens.title}</h3>
               <p className="mt-4 leading-7 text-white/76">{selectedLens.detail}</p>
             </div>
+          </div>
           </div>
         </div>
       </section>
